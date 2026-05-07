@@ -46,7 +46,7 @@ npm install
 Create a `.env` file in the root directory and configure the following:
 
 ```env
-DB_URI=here
+DB_URI=here  (supabase PostGreSql use here)
 JWT_ACCESS_SECRET=here
 JWT_REFRESH_SECRET=here
 PORT=here|optional default 3000
