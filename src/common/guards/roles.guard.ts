@@ -5,7 +5,7 @@ import { UserRole } from 'src/modules/users/enums/user-role';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 
 @Injectable()
-export class rolesGuard implements CanActivate {
+export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector){}
 
   canActivate(
@@ -18,6 +18,7 @@ export class rolesGuard implements CanActivate {
       ROLES_KEY,
       [context.getHandler(), context.getClass()]
     )
+
 
     if (!requiredRoles) {
       return true;
