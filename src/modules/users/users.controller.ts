@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, ParseUUIDPipe, Patch, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
-import { rolesGuard } from 'src/common/guards/roles.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { UserRole } from './enums/user-role';
 import { apiResponse } from 'src/common/utils/api-response';
 import { UpdateUserRoleDto } from './dto/update-user-role.dto';
 
 @Controller('users')
-@UseGuards(JwtAuthGuard, rolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
 export class UsersController {
     constructor(private userService: UsersService) { }

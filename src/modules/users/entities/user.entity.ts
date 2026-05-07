@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserRole } from "../enums/user-role";
+import { RequestEntity } from "src/modules/requests/entities/request.entity";
 
 @Entity('users')
 export class UserEntity {
@@ -33,4 +34,10 @@ export class UserEntity {
 
     @UpdateDateColumn({ type: 'timestamptz' })
     updated_at!: Date
+
+    @OneToMany(() => RequestEntity, request => request.createdBy)
+    createdRequests!: RequestEntity[]
+
+    @OneToMany(() => RequestEntity, request => request.reviewedBy)
+    reviewedRequests!: RequestEntity[]
 }
