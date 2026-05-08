@@ -12,6 +12,7 @@ import { RequestQueryDto } from './dto/request-query.dto';
 
 @Controller('requests')
 @UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 
 export class RequestsController {
     constructor(private readonly reqService: RequestsService) { }
