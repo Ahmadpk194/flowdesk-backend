@@ -8,6 +8,7 @@ import { UserEntity } from '../users/entities/user.entity';
 import { RejectRequestDto } from './dto/reject-request.dto';
 import { JwtPayload } from 'src/common/interfaces/jwt-payload.interface';
 import { RequestQueryDto } from './dto/request-query.dto';
+import { UserRole } from '../users/enums/user-role';
 
 @Injectable()
 export class RequestsService {
@@ -137,5 +138,26 @@ export class RequestsService {
         }
 
         return request;
+    }
+
+    async deleteRequest(id: string, user: JwtPayload) {
+        const request = await this.reqRepo.findOne({
+            where: { uuid: id },
+            relations: ['createdBy'],
+        });
+
+        if (!request) {
+            throw new NotFoundException('Request not found!');
+        }
+
+        const isAdmin = user.role === UserRole.ADMIN;
+        const isOwner = request.createdBy.id === user.sub;
+
+        // Employee can only delete own request, admin can delete any
+        if (!isAdmin && !isOwner) {
+            throw new ForbiddenException('You are not allowed to delete this request.');
+        }
+
+        return await this.reqRepo.remove(request);
     }
 }

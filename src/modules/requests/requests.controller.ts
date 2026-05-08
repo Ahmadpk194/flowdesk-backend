@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Req, UseGuards, Param, ParseIntPipe, Patch, ParseUUIDPipe, NotFoundException, Query } from '@nestjs/common';
+import { Body, Controller, Post, Get, Req, UseGuards, Param, ParseIntPipe, Patch, ParseUUIDPipe, NotFoundException, Query, Delete } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { RequestsService } from './requests.service';
@@ -47,22 +47,32 @@ export class RequestsController {
 
     @Roles(UserRole.MANAGER)
     @Patch(':id/reject')
-    async rejectRequest(@Body() body: RejectRequestDto,@Param('id', ParseUUIDPipe) id: string, @User() user: any) {
+    async rejectRequest(@Body() body: RejectRequestDto, @Param('id', ParseUUIDPipe) id: string, @User() user: any) {
         const approve = await this.reqService.reject(body, id, user)
         return apiResponse('Request rejected', approve)
     }
 
     @Roles(UserRole.MANAGER, UserRole.ADMIN)
     @Get('/')
-    async getRequests(@Query() dto: RequestQueryDto){
+    async getRequests(@Query() dto: RequestQueryDto) {
         const data = await this.reqService.findRequests(dto);
         return apiResponse('Pending requests fetched Success!', data)
     }
 
     @Roles(UserRole.EMPLOYEE, UserRole.MANAGER)
     @Get(':id')
-    async getSingleReqById(@Param('id', ParseUUIDPipe) id: string){
+    async getSingleReqById(@Param('id', ParseUUIDPipe) id: string) {
         const data = await this.reqService.findById(id);
         return apiResponse('Request fetched Success!', data)
+    }
+
+    @Roles(UserRole.EMPLOYEE, UserRole.ADMIN)
+    @Delete(':id')
+    async deleteRequest(
+        @Param('id', ParseUUIDPipe) id: string,
+        @User() user: any
+    ) {
+        const result = await this.reqService.deleteRequest(id, user);
+        return apiResponse('Request deleted successfully', result);
     }
 }
