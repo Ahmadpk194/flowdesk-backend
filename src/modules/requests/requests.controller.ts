@@ -59,7 +59,7 @@ export class RequestsController {
         return apiResponse('Pending requests fetched Success!', data)
     }
 
-    @Roles(UserRole.EMPLOYEE, UserRole.MANAGER)
+    @Roles(UserRole.EMPLOYEE, UserRole.MANAGER, UserRole.ADMIN)
     @Get(':id')
     async getSingleReqById(@Param('id', ParseUUIDPipe) id: string) {
         const data = await this.reqService.findById(id);
