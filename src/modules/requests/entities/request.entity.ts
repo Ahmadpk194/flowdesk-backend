@@ -23,12 +23,18 @@ export class RequestEntity {
     @Column({ nullable: true })
     rejectionResason!: string
 
-    @ManyToOne(() => UserEntity, user => user.createdRequests)
+    @ManyToOne(() => UserEntity, user => user.createdRequests, {
+        nullable: true,
+        onDelete: 'SET NULL'
+    })
     createdBy!: UserEntity
 
-    @ManyToOne(() => UserEntity, user => user.reviewedRequests,
-        { nullable: true })
+    @ManyToOne(() => UserEntity, user => user.reviewedRequests, {
+        nullable: true,
+        onDelete: 'SET NULL'
+    })
     reviewedBy!: UserEntity
+
 
     @Column({ nullable: true })
     reviewedAt!: Date
