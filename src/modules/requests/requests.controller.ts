@@ -52,7 +52,7 @@ export class RequestsController {
         return apiResponse('Request rejected', approve)
     }
 
-    @Roles(UserRole.MANAGER)
+    @Roles(UserRole.MANAGER, UserRole.ADMIN)
     @Get('/')
     async getRequests(@Query() dto: RequestQueryDto){
         const data = await this.reqService.findRequests(dto);
