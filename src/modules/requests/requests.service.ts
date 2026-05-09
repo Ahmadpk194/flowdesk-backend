@@ -108,7 +108,7 @@ export class RequestsService {
         request.status = RequestStatusEnum.REJECTED;
         request.reviewedBy = manager;
         request.reviewedAt = new Date();
-        request.rejectionResason = body.rejectionResason;
+        request.rejectionReason = body.rejectionReason;
 
         return this.reqRepo.save(request);
     }

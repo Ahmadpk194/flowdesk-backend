@@ -21,7 +21,7 @@ export class RequestEntity {
     status!: RequestStatusEnum
 
     @Column({ nullable: true })
-    rejectionResason!: string
+    rejectionReason!: string
 
     @ManyToOne(() => UserEntity, user => user.createdRequests, {
         nullable: true,
